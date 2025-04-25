@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="scripts">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/hollowengine/scripts/function.se.kts.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hollowengine/scripts/test.se.kts.jar!/" />
+      <root url="jar://$PROJECT_DIR$/hollowengine/scripts/Mindas.se.kts.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>
