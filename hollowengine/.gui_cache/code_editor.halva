@@ -20,6 +20,11 @@ Pos=0,0
 Size=1920,1080
 Collapsed=0
 
+[Window][Input]
+Pos=618,463
+Size=656,160
+Collapsed=0
+
 [Docking][Data]
 DockSpace   ID=0xDF2CC5FF Window=0x1AEBB23B Pos=8,8 Size=1904,1064 Split=X
   DockNode  ID=0x00000001 Parent=0xDF2CC5FF SizeRef=760,1064 Selected=0x67836C31

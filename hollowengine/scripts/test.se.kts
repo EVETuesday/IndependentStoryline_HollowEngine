@@ -1,58 +1,21 @@
-import net.minecraft.server.level.ServerPlayer
-
-val player by server.players
-var me = player()[0]
-
-val npc1 by NPCEntity.creating {
-    name = "Эдгар"
-    model = "IS:models/npc/gerdec.gltf""
-    textures["classic"] = ""
-    showName = false
-    pos = pos(603.8, 101.0, -1919.3)
+val team by server.players
+val modium by NPCEntity.creating {
+    name = "Модиум" //Имя персонажа
+    model = "is:models/npc/Mindos.gltf" //Путь к модели персонажа
+    attributes = Attributes( //список атрибутов персонажа (здоровье, скорость и т.п.) - всё как в команде /attribute
+        "minecraft:generic.max_health" to 10000f,
+        "minecraft:generic.movement_speed" to 0.2f, //к примеру здоровье
+    )
+    animations[AnimationType.IDLE] = "mindosmorgaet"
+    showName = true //показывать ли ник с именем над нпс
+    pos = pos(230.04, 70.00, 6.45) //координаты где спавнить нпс
 }
+modium lookAlwaysAt team
 
-val npc2 by NPCEntity.creating {
-    name = "Эдгар"
-    model = "IS:models/npc/gerdec.gltf""
-    textures["classic"] = ""
-    showName = false
-    pos = pos(593.9, 101.0, -1920.3)
+wait{2.sec}
+modium play {
+    animation = "mindosmorgaet" // Название анимации
+    layerMode = LayerMode.ADD // Режим сложения анимаций. Есть: ADD - добавить к текущему положению ещё анимацию. OVERWRITE - полностью перезаписать другие анимации.
+    playType = PlayMode.LOOPED // Режим проигрывания анимаций. Есть: ONCE - 1 раз, LOOPED - в цикле, LAST_FRAME - остановиться на последнем кадре, REVERSED - в цикле, но после завершения в обратную сторону
+    speed = 1f // Скорость анимации
 }
-
-fun npcGuardZone(x: Double, y: Double, z: Double, message: String) = async {
-    fun <T> IContextBuilder.notNullElse(v: T?, def: T): T {
-        var ret = def
-        if (v != null) {
-            ret = v!!
-        }
-        return ret
-    }
-
-    var npcEntity1 = NPCEntity(me.level)
-    var npcEntity2 = NPCEntity(me.level)
-    var npcEntity3 = NPCEntity(me.level)
-
-    next {
-        npcEntity1 = notNullElse(npc1.invoke(), NPCEntity(me.level))
-        npcEntity2 = notNullElse(npc2.invoke(), NPCEntity(me.level))
-    }
-
-    val executeTask = async {
-        While({!npcEntity3.isRemoved() && !npcEntity1.isRemoved() && !npcEntity2.isRemoved()}) { 
-            If({npcEntity1.closerThan(me, 3.0)}) {
-                npc1.say({message})
-                next {
-                    me.teleportTo(x, y, z)
-                }
-            }
-            If({npcEntity2.closerThan(me, 3.0)}) {
-                npc2.say({message})
-                next {
-                    me.teleportTo(x, y, z)
-                }
-            }
-        }
-    }
-}
-
-/* npcGuardZone(600.0, 101.0, -1907.1, "Э, ты куда полез черт>:(") */
