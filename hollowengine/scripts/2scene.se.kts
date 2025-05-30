@@ -1,3 +1,9 @@
+import net.minecraft.world.entity.player.Inventory
+import net.minecraft.world.entity.player.Player
+import net.minecraftforge.registries.ForgeRegistries
+import net.minecraft.resources.ResourceLocation
+import net.minecraft.world.item.Item
+
 val players by server.players
 val player = players().first()
 
@@ -160,9 +166,39 @@ wait{4.sec}
 alfia say{"Малейшее действие, которое меня смутит — и я тебя выкину без сожалений. Уяснил?"}
 wait{6.sec}
 alfia say{"Не смей ничего вытворять!"}
-
 alfia.waitInteract()
+val itemsId: List<String>  = listOf("independent_storyline:alfia_amulet","independent_storyline:fanzia_amulet","independent_storyline:gerdes_amulet")
+val items: MutableList<Item> = mutableListOf()
+for (itemId in itemsId) {
+    items.add(ForgeRegistries.ITEMS.getValue(ResourceLocation(itemId)) as Item)
+}
+var items2: MutableList<Item> = mutableListOf()
+for (i in 0 until player.getInventory().getContainerSize()) {
+    val stack = player.getInventory().getItem(i)
+    if (items.contains(stack.item)) {
+        items2.add(stack.item)
+    }
+}
 
+//execute{"/say "+items2}
+var s = items2.containsAll(items)
+//execute{"/say "+s}
+if(!s){
+    While({!s}){
+        alfia say{"Реплика"}
+        alfia.waitInteract()
+        next{
+            var items2: MutableList<Item> = mutableListOf()
+            for (i in 0 until player.getInventory().getContainerSize()) {
+                val stack = player.getInventory().getItem(i)
+                if (items.contains(stack.item)) {
+                    items2.add(stack.item)
+                }
+            }
+            s = items2.containsAll(items)
+        }
+    }
+}
 alfia say{"Ты, быстро! Что выбрал?"}
 wait{4.sec}
 dialogue {
@@ -226,7 +262,7 @@ alfia say{"Cквозь боль пыталась откопать останки
 wait{4.sec}
 alfia say{"Этого достаточно, чтобы ненавидеть Модиума?"}
 wait{4.sec}
-alfia lookAlwaysAt{pos{203,75.5,55}}
+alfia lookAlwaysAt{pos(203,75.5,55)}
 players say{"Да, прости."}
 wait{4.sec}
 players say{"Я не знал..."}
@@ -244,7 +280,7 @@ wait{4.sec}
 alfia say{"Иди скажи Миндосу, что мы готовы лететь."}
 wait{4.sec}
 alfia playOnce{"vzdoh"}
-alfia.waitInteract()
+mindos.waitInteract()
 players say{"Альфия просила передать тебе, что мы готовы лететь."}
 wait{4.sec}
 mindos say{"Ага, понял. Значит летим."}
