@@ -5,6 +5,12 @@ import com.mojang.math.Vector3f
 import net.minecraft.server.level.ServerLevel
 
 
+fun IContextBuilder.sayWithDelay(npc: Safe<NPCEntity>, msg: () -> String) {
+	val realMsg = msg()
+	npc say {realMsg}
+	wait {20 + realMsg.split(" ").size * 5}
+}
+
 val players by server.players
 val player = players().first()
 val defaultSayDelay = 50
@@ -56,8 +62,8 @@ fadeOut {
 	time = 2.sec
 }
 
-val startPos = Vec3(-1530.5, 220.0, 65.5)
-val endPos = Vec3(-1530.5, 220.0, -180.5)
+val startPos = Vec3(-1531.5, 220.0, 65.5)
+val endPos = Vec3(-1531.5, 220.0, -180.5)
 var stepN = 0
 var steps = 300
 
@@ -67,7 +73,7 @@ val pathAsync = async {
 			while (stepN < steps) {
 				stepN++
 				var pos = startPos.add(endPos.subtract(startPos).scale((stepN.toDouble()) / steps))
-				(player.level as ServerLevel).sendParticles(player, DustParticleOptions(Vector3f(0.7f, 0.7f, 1.0f), 1.0f), true, pos.x, pos.y, pos.z, 2, 0.0, 0.0, 0.0, 0.1);
+				(player.level as ServerLevel).sendParticles(player, DustParticleOptions(Vector3f(0.13f, 0.58f, 0.71f), 2.0f), true, pos.x, pos.y, pos.z, 2, 0.0, 0.0, 0.0, 0.1);
 			}
 			stepN = 0
 		}
@@ -88,20 +94,23 @@ gerdec.stopLookAlways()
 gerdec moveAlwaysTo {player}
 
 players waitPos {
-	pos = pos(-1532, 200, -22)
+	pos = pos(-1532, 200, 45)
 	radius = 7.0
 	createIcon = false
 }
 
-gerdec say {"Это был отличный город, люди были в достатке и ничего не боялись. Но потом пришёл он..."}
-wait {defaultSayDelay * 2}
+sayWithDelay(gerdec, {"Это был отличный город, люди были в достатке и ничего не боялись."})
+wait {defaultSayDelay}
+sayWithDelay(gerdec, {"Но потом пришёл он..."})
+wait {defaultSayDelay}
 players say {"Почему Модиум решился на такое?"}
 wait {defaultSayDelay}
-gerdec say {"А кто его знает, возьмём этого засранца и выясним всё."}
-wait {defaultSayDelay * 4}
-players say {"Гердес, а где все люди? Почему в городе пусто?"}
-wait {defaultSayDelay * 2}
-gerdec say {"Они боятся, Модиум внушил народу страх и боязнь, никто не хочет выходить из дома, так как боится быть пойманным и убитым."}
+sayWithDelay(gerdec, {"А кто его знает, возьмём этого засранца и выясним всё."})
+players say {"Гердес, а где все люди?"}
+wait {defaultSayDelay}
+players say {"Почему в городе пусто?"}
+wait {defaultSayDelay}
+sayWithDelay(gerdec, {"Они боятся, Модиум внушил народу страх и боязнь, никто не хочет выходить из дома, так как боится быть пойманным и убитым."})
 
 players waitPos {
 	pos = pos(-1531, 203, -179)
@@ -130,29 +139,29 @@ players waitPos {
 }
 
 wait {50}
-modium say {"Повстанец. Какими судьбами?"}
-wait {defaultSayDelay}
+sayWithDelay(modium, {"Повстанец. Какими судьбами?"})
 players say {"Я о тебе наслышан. Многие говорят не лестное."}
 wait {defaultSayDelay}
 modium lookAlwaysAt {player}
-modium say {"И что говорят?"}
+sayWithDelay(modium, {"И что говорят?"})
 wait {defaultSayDelay}
 players say {"Что ты испортил всем жизнь."}
 wait {defaultSayDelay}
-modium say {"Смешно. Жизнь испортили люди себе сами. Могли же понять, что я для них стараюсь и не нужно сопротивляться. Но кто-то поиграть в героев решил и создал  повстанческие группы."}
-wait {defaultSayDelay * 3}
+sayWithDelay(modium, {"Смешно. Жизнь испортили люди себе сами."})
+sayWithDelay(modium, {"Могли же понять, что я для них стараюсь и не нужно сопротивляться."})
+sayWithDelay(modium, {"Но кто-то поиграть в героев решил и создал повстанческие группы."})
 players say {"Ты захватил власть черным путем и за это ты должен ответить перед народом."}
 wait {defaultSayDelay}
-modium say {"Я тебя раньше не видел. Кто ты?"}
+sayWithDelay(modium, {"Я тебя раньше не видел. Кто ты?"})
+players say {"Это не важно."}
 wait {defaultSayDelay}
-players say {"Это не важно. Сдайся пока не поздно, пока все не отвернулись от тебя окончательно. "}
-wait {defaultSayDelay * 2}
-modium say {"Ты не знаешь всей картины. И что сверг я власть по весомым причинам."}
-wait {defaultSayDelay * 2}
-modium say {"Если ты сейчас всё свои оружие сложишь на пол и примкнешь ко мне, я пощажу тебя."}
-wait {defaultSayDelay * 2}
-modium say {"Ты сможешь узнать, как оказался тут, кто ты и зачем ты здесь."}
-wait {defaultSayDelay * 2}
-modium say {"Я помогу достичь тебе всех амбиций, что у тебя есть. Мне нужна помощь. Я расскажу тебе, почему я пошел на такой проступок. "}
-wait {defaultSayDelay * 2}
+players say {"Сдайся пока не поздно, пока все не отвернулись от тебя окончательно."}
+wait {defaultSayDelay}
+sayWithDelay(modium, {"Ты не знаешь всей картины."})
+sayWithDelay(modium, {"И что сверг я власть по весомым причинам."})
+sayWithDelay(modium, {"Если ты сейчас всё свои оружие сложишь на пол и примкнешь ко мне, я пощажу тебя."})
+sayWithDelay(modium, {"Ты сможешь узнать, как оказался тут, кто ты и зачем ты здесь."})
+sayWithDelay(modium, {"Я помогу достичь тебе всех амбиций, что у тебя есть."})
+sayWithDelay(modium, {"Мне нужна помощь."})
+sayWithDelay(modium, {"Я расскажу тебе, почему я пошел на такой проступок."})
 players say {"Думаю, я сам всего добьюсь. Мне не нужна помощь."}
