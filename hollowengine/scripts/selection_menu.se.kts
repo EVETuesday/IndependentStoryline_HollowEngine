@@ -14,43 +14,43 @@ gui {
 	}
 	label("Вопрос?") {
 		anchor = Anchor.START
-		offset(5.px, (-70).px)
+		offset(15.px, (-70).px)
 		scale = 1.5f
 	}
 	button("", "is:textures/gui/selection_screen/empty.png") {
 		size(230.px, 15.px)
-		offset(15.px, (-20).px)
+		offset(25.px, (-20).px)
 		onClick = {
 			close()
 		}
 	}
 	label("Вариант 1") {
 		anchor = Anchor.START
-		offset(7.px, (-25).px)
+		offset(17.px, (-25).px)
 		scale = 1.2f
 	}
 	button("", "is:textures/gui/selection_screen/empty.png") {
 		size(230.px, 15.px)
-		offset(15.px, (-0).px)
+		offset(25.px, (-0).px)
 		onClick = {
 			close()
 		}
 	}
 	label("Вариант 2") {
 		anchor = Anchor.START
-		offset(7.px, (-5).px)
+		offset(17.px, (-5).px)
 		scale = 1.2f
 	}
 	button("", "is:textures/gui/selection_screen/empty.png") {
 		size(230.px, 15.px)
-		offset(15.px, (20).px)
+		offset(25.px, (20).px)
 		onClick = {
 			close()
 		}
 	}
 	label("Вариант 3") {
 		anchor = Anchor.START
-		offset(7.px, (15).px)
+		offset(17.px, (15).px)
 		scale = 1.2f
 	}
 }
