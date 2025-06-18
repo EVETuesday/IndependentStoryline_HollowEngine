@@ -1,6 +1,7 @@
 val players by server.players
 val player = players().first()
 
+var variant = -1
 gui {
 	image("is:textures/gui/selection_screen/bgr_1.png") {
 		size(350.px, 256.px)
@@ -21,6 +22,7 @@ gui {
 		size(230.px, 15.px)
 		offset(25.px, (-20).px)
 		onClick = {
+			variant = 0
 			close()
 		}
 	}
@@ -33,6 +35,7 @@ gui {
 		size(230.px, 15.px)
 		offset(25.px, (-0).px)
 		onClick = {
+			variant = 1
 			close()
 		}
 	}
@@ -45,6 +48,7 @@ gui {
 		size(230.px, 15.px)
 		offset(25.px, (20).px)
 		onClick = {
+			variant = 2
 			close()
 		}
 	}
@@ -54,3 +58,20 @@ gui {
 		scale = 1.2f
 	}
 }
+While({variant == -1}) {
+	wait {5}
+}
+
+If({variant == 0}) {
+	execute {"/give @a diamond"}
+} Else {
+	If({variant == 1}) {
+		execute {"/give @a emerald"}
+	} Else {
+		If({variant == 2}) {
+			execute {"/give @a stick"}
+		}
+	}
+}
+
+
